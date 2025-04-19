@@ -1,38 +1,19 @@
-from os import getcwd
-
-from aws_cdk import Stack, App, Duration
-from aws_cdk.aws_ecr_assets import Platform
-from aws_cdk.aws_lambda import DockerImageFunction, DockerImageCode, Architecture
-from aws_cdk.aws_secretsmanager import Secret
+from aws_cdk import Stack, App
 from constructs import Construct
 
-class PythonLambdaFunction(Stack):
+from aws.dns import setup_dns
+from aws.nat import setup_nat
+from aws.vpc import setup_vpc
+
+
+class Commons(Stack):
     def __init__(self, scope: Construct):
-        super().__init__(scope, 'PythonLambdaFunction')
-
-        secret = Secret(self, 'Secret')
-
-        function = DockerImageFunction(
-            self,
-            'Function',
-            memory_size=128,
-            code=DockerImageCode.from_image_asset(
-                directory=getcwd(),
-                platform=Platform.LINUX_ARM64,
-                cmd=['src.main.lambda_handler']
-            ),
-            architecture=Architecture.ARM_64,
-            environment={
-                'SECRET_ARN': secret.secret_arn,
-                'NAME': 'Alice'
-            },
-            timeout=Duration.minutes(15)
-        )
-
-        secret.grant_read(function)
+        super().__init__(scope, 'Commons')
+        setup_dns(self)
+        setup_nat(self, setup_vpc(self))
 
 
 if __name__ == '__main__':
     app = App()
-    PythonLambdaFunction(app)
+    Commons(app)
     app.synth()
