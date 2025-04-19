@@ -31,6 +31,7 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-check
         with:
           python-version: ${{ env.python-version }}
@@ -41,6 +42,7 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-check
         with:
           python-version: ${{ env.python-version }}
@@ -56,6 +58,7 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-check
         with:
           python-version: ${{ env.python-version }}
