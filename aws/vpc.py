@@ -13,12 +13,12 @@ def setup_vpc(scope: Construct) -> IVpc:
         nat_gateways=0,
         subnet_configuration=[
             SubnetConfiguration(
-                name="Public",
+                name='Public',
                 subnet_type=SubnetType.PUBLIC,
                 cidr_mask=24
             ),
             SubnetConfiguration(
-                name="Private",
+                name='Private',
                 subnet_type=SubnetType.PRIVATE_WITH_EGRESS,
                 cidr_mask=24
             )
@@ -28,20 +28,20 @@ def setup_vpc(scope: Construct) -> IVpc:
     private_subnet_selection = SubnetSelection(subnet_type=SubnetType.PRIVATE_WITH_EGRESS)
 
     vpc.add_gateway_endpoint(
-        "S3GatewayEndpoint",
+        'S3GatewayEndpoint',
         service=GatewayVpcEndpointAwsService.S3,
         subnets=[private_subnet_selection]
     )
 
     vpc.add_gateway_endpoint(
-        "DynamodbGatewayEndpoint",
+        'DynamodbGatewayEndpoint',
         service=GatewayVpcEndpointAwsService.DYNAMODB,
         subnets=[private_subnet_selection]
     )
 
     CfnOutput(
         scope,
-        "VpcId",
+        'VpcId',
         value=vpc.vpc_id
     )
 

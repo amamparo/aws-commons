@@ -7,22 +7,22 @@ from constructs import Construct
 def setup_nat(scope: Construct, vpc: IVpc):
     nat_security_group = SecurityGroup(
         scope,
-        "NatSecurityGroup",
+        'NatSecurityGroup',
         vpc=vpc,
-        description="Security group for NAT",
+        description='Security group for NAT',
         allow_all_outbound=True,
     )
 
     nat_security_group.add_ingress_rule(
         Peer.ipv4(vpc.private_subnets[0].ipv4_cidr_block),
         Port.all_traffic(),
-        "Allow all traffic from private subnet"
+        'Allow all traffic from private subnet'
     )
 
     nat_instance = Instance(
         scope,
-        "NatInstance",
-        instance_type=InstanceType("t4g.nano"),
+        'NatInstance',
+        instance_type=InstanceType('t4g.nano'),
         associate_public_ip_address=True,
         machine_image=MachineImage.latest_amazon_linux2023(cpu_type=AmazonLinuxCpuType.ARM_64),
         vpc=vpc,
@@ -30,23 +30,23 @@ def setup_nat(scope: Construct, vpc: IVpc):
         security_group=nat_security_group,
         role=Role(
             scope,
-            "NatInstanceRole",
-            assumed_by=ServicePrincipal("ec2.amazonaws.com"),
+            'NatInstanceRole',
+            assumed_by=ServicePrincipal('ec2.amazonaws.com'),
             managed_policies=[
-                ManagedPolicy.from_aws_managed_policy_name("AmazonSSMManagedInstanceCore")
+                ManagedPolicy.from_aws_managed_policy_name('AmazonSSMManagedInstanceCore')
             ],
         ),
     )
 
-    nat_instance.node.default_child.source_dest_check = False
+    nat_instance.node.default_child.source_dest_check = False  # type: ignore[union-attr]
 
-    with open('nat_ec2_user_data.sh', 'r') as user_data:
+    with open('nat_ec2_user_data.sh', 'r', encoding='utf-8') as user_data:
         nat_instance.user_data.add_commands(*user_data.read().splitlines())
 
     CfnRoute(
         scope,
-        f"PrivateSubnetToNatInstance",
+        'PrivateSubnetToNatInstance',
         route_table_id=vpc.private_subnets[0].route_table.route_table_id,
-        destination_cidr_block="0.0.0.0/0",
+        destination_cidr_block='0.0.0.0/0',
         instance_id=nat_instance.instance_id,
     )

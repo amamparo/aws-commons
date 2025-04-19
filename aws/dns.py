@@ -26,6 +26,6 @@ def setup_dns(scope: Construct):
 
     CfnOutput(
         scope,
-        "HostedZoneId",
+        'HostedZoneId',
         value=hosted_zone.hosted_zone_id,
     )
