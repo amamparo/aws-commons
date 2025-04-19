@@ -1,9 +1,9 @@
 from aws_cdk import Stack, App
 from constructs import Construct
 
-from aws.dns import setup_dns
-from aws.nat import setup_nat
-from aws.vpc import setup_vpc
+from infrastructure.dns import setup_dns
+from infrastructure.nat import setup_nat
+from infrastructure.vpc import setup_vpc
 
 
 class Commons(Stack):
