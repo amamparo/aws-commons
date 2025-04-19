@@ -4,7 +4,7 @@ from aws_cdk.aws_iam import Role, ServicePrincipal, ManagedPolicy
 from constructs import Construct
 
 
-def setup_nat(scope: Construct, vpc: IVpc):
+def setup_nat(scope: Construct, vpc: IVpc) -> None:
     nat_security_group = SecurityGroup(
         scope,
         'NatSecurityGroup',

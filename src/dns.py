@@ -3,7 +3,7 @@ from aws_cdk.aws_route53 import HostedZone, TxtRecord
 from constructs import Construct
 
 
-def setup_dns(scope: Construct):
+def setup_dns(scope: Construct) -> None:
     hosted_zone = HostedZone(scope, 'HostedZone', zone_name='aaronmamparo.com')
 
     TxtRecord(

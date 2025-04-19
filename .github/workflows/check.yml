@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        task: [ lint, types, test ]
+        task: [ lint, types, synth ]
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -57,3 +57,6 @@ jobs:
           restore-keys: mypy-${{ runner.os }}-${{ env.python-version }}-
 
       - run: make ${{ matrix.task }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

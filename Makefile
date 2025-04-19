@@ -2,18 +2,18 @@ install:
 	poetry install --no-root
 
 lint:
-	poetry run pylint src tests infrastructure
+	poetry run pylint src
 
 types:
-	poetry run mypy src tests infrastructure
+	poetry run mypy src
 
-test:
-	poetry run python -m unittest discover -s 'tests' -p '*.py'
+synth:
+	cdk synth
 
-check: lint types test
+check: lint types synth
 
 diff:
-	cdk diff --fail
+	cdk diff
 
 deploy:
 	cdk deploy --require-approval never

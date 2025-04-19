@@ -1,19 +1,19 @@
-from typing import Optional
+from aws_cdk import Stack, App
+from constructs import Construct
 
-from injector import inject, Injector
-
-from src.environment import Environment
-
-
-@inject
-def main(environment: Environment) -> None:
-    print(f'Hello {environment.get('NAME')}')
+from src.dns import setup_dns
+from src.nat import setup_nat
+from src.vpc import setup_vpc
 
 
-# pylint: disable=unused-argument
-def lambda_handler(event: Optional[dict] = None, context: Optional[dict] = None) -> None:
-    Injector().call_with_injection(main)
+class Commons(Stack):
+    def __init__(self, scope: Construct):
+        super().__init__(scope, 'Commons')
+        setup_dns(self)
+        setup_nat(self, setup_vpc(self))
 
 
 if __name__ == '__main__':
-    lambda_handler()
+    app = App()
+    Commons(app)
+    app.synth()

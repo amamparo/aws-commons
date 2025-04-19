@@ -1,7 +1,7 @@
 [project]
 name = "aws-commons"
 version = "0.1.0"
-description = "Shared AWS infrastructure and CDK utilities"
+description = "Shared AWS infrastructure"
 authors = [
     { name = "Aaron Mamparo", email = "aaronmamparo@gmail.com" }
 ]
@@ -9,10 +9,7 @@ readme = "README.md"
 requires-python = ">=3.13,<4"
 package-mode = false
 dependencies = [
-    "boto3 (>=1.37.37,<2.0.0)",
     "aws-cdk-lib (>=2.190.0,<3.0.0)",
-    "python-dotenv (>=1.1.0,<2.0.0)",
-    "injector (>=0.22.0,<0.23.0)"
 ]
 
 [build-system]
