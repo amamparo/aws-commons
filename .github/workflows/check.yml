@@ -66,4 +66,5 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '22'
+      - run: npm install -g aws-cdk
       - run: make synth
