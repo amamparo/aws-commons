@@ -24,18 +24,16 @@ def setup_vpc(scope: Construct) -> IVpc:
         ]
     ))
 
-    private_subnet_selection = SubnetSelection(subnet_type=SubnetType.PRIVATE_WITH_EGRESS)
-
     vpc.add_gateway_endpoint(
         'S3GatewayEndpoint',
         service=GatewayVpcEndpointAwsService.S3,
-        subnets=[private_subnet_selection]
+        subnets=[SubnetSelection(subnet_type=SubnetType.PRIVATE_WITH_EGRESS)]
     )
 
     vpc.add_gateway_endpoint(
         'DynamodbGatewayEndpoint',
         service=GatewayVpcEndpointAwsService.DYNAMODB,
-        subnets=[private_subnet_selection]
+        subnets=[SubnetSelection(subnet_type=SubnetType.PRIVATE_WITH_EGRESS)]
     )
 
     return vpc
