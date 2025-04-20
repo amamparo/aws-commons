@@ -1,0 +1,5 @@
+account_id = "388646735826"
+region = "us-east-1"
+home_domain_name = "aaronmamparo.com"
+billing_alert_email = "aaronmamparo@gmail.com"
+billing_alert_estimated_monthly_charges_threshold_usd = 50

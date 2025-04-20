@@ -2,9 +2,11 @@ from aws_cdk import Duration
 from aws_cdk.aws_route53 import HostedZone, TxtRecord
 from constructs import Construct
 
+from src.config import config
+
 
 def setup_dns(scope: Construct) -> HostedZone:
-    hosted_zone = HostedZone(scope, 'HostedZone', zone_name='aaronmamparo.com')
+    hosted_zone = HostedZone(scope, 'HostedZone', zone_name=config['home_domain_name'])
 
     TxtRecord(
         scope,

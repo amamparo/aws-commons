@@ -4,6 +4,8 @@ from aws_cdk.aws_cloudwatch_actions import SnsAction
 from aws_cdk.aws_sns_subscriptions import EmailSubscription
 from constructs import Construct
 
+from src.config import config
+
 
 def setup_billing_alert(scope: Construct) -> None:
     billing_topic = Topic(
@@ -12,7 +14,9 @@ def setup_billing_alert(scope: Construct) -> None:
         display_name='AWS Billing Alarm'
     )
 
-    billing_topic.add_subscription(EmailSubscription('aaronmamparo@gmail.com'))
+    billing_topic.add_subscription(EmailSubscription(config['billing_alert_email']))
+
+    threshold = config['billing_alert_estimated_monthly_charges_threshold_usd']
 
     billing_alarm = cloudwatch.Alarm(
         scope,
@@ -26,10 +30,10 @@ def setup_billing_alert(scope: Construct) -> None:
             statistic='Maximum',
             period=Duration.hours(6)
         ),
-        threshold=50,
+        threshold=threshold,
         evaluation_periods=1,
         comparison_operator=cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
-        alarm_description='Alarm when estimated charges exceed $50',
+        alarm_description=f'Alarm when estimated charges exceed ${threshold}',
         treat_missing_data=cloudwatch.TreatMissingData.MISSING
     )
 
