@@ -1,4 +1,6 @@
-# python-template
+# aws-commons
+
+Shared infrastructure in my hobby AWS account.
 
 ## Requirements
 * Python 3.13
@@ -10,7 +12,7 @@
 make install
 ```
 
-## Run
+## Deploy
 ```shell
-make run
+make deploy
 ```
