@@ -68,3 +68,6 @@ jobs:
           node-version: '22'
       - run: npm install -g aws-cdk
       - run: make synth
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
