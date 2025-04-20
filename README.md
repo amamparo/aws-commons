@@ -11,8 +11,7 @@ This repository contains foundational infrastructure components for a hobby AWS 
 * Python 3.13+
     * [pyenv](https://github.com/pyenv/pyenv) recommended for version management
 * [Poetry](https://python-poetry.org/docs/#installation) for dependency management
-* AWS CDK CLI (`npm install -g aws-cdk`)
-* Configured AWS credentials
+* [AWS CDK](https://docs.aws.amazon.com/cdk/v2/guide/getting-started.html#getting-started-install)
 
 ### Setup
 1. Install dependencies:
