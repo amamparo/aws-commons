@@ -8,7 +8,7 @@ types:
 	poetry run mypy src
 
 synth:
-	cdk synth
+	cdk synth -q
 
 check: lint types synth
 

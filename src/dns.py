@@ -1,9 +1,9 @@
-from aws_cdk import CfnOutput, Duration
+from aws_cdk import Duration
 from aws_cdk.aws_route53 import HostedZone, TxtRecord
 from constructs import Construct
 
 
-def setup_dns(scope: Construct) -> None:
+def setup_dns(scope: Construct) -> HostedZone:
     hosted_zone = HostedZone(scope, 'HostedZone', zone_name='aaronmamparo.com')
 
     TxtRecord(
@@ -24,8 +24,4 @@ def setup_dns(scope: Construct) -> None:
         ttl=Duration.seconds(60)
     )
 
-    CfnOutput(
-        scope,
-        'HostedZoneId',
-        value=hosted_zone.hosted_zone_id,
-    )
+    return hosted_zone

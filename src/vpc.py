@@ -1,6 +1,5 @@
 from typing import cast
 
-from aws_cdk import CfnOutput
 from aws_cdk.aws_ec2 import Vpc, SubnetConfiguration, SubnetType, SubnetSelection, IVpc, GatewayVpcEndpointAwsService
 from constructs import Construct
 
@@ -37,12 +36,6 @@ def setup_vpc(scope: Construct) -> IVpc:
         'DynamodbGatewayEndpoint',
         service=GatewayVpcEndpointAwsService.DYNAMODB,
         subnets=[private_subnet_selection]
-    )
-
-    CfnOutput(
-        scope,
-        'VpcId',
-        value=vpc.vpc_id
     )
 
     return vpc
