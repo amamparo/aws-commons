@@ -14,7 +14,7 @@ class Commons(Stack):
             'account': config['account_id'],
             'region': config['region']
         })
-        hosted_zone = setup_dns(self)
+        hosted_zone, certificate = setup_dns(self)
         vpc = setup_vpc(self)
         setup_nat(self, vpc)
         setup_billing_alert(self)
@@ -23,6 +23,12 @@ class Commons(Stack):
             self,
             'HostedZoneId',
             value=hosted_zone.hosted_zone_id,
+        )
+
+        CfnOutput(
+            self,
+            'CertificateArn',
+            value=certificate.certificate_arn,
         )
 
         CfnOutput(
