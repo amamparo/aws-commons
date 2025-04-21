@@ -1,10 +1,10 @@
-from aws_cdk import Stack, App, CfnOutput
+from aws_cdk import Stack, App
 from constructs import Construct
 
 from src.billing_alert import setup_billing_alert
 from src.config import config
 from src.dns import setup_dns
-from src.nat import setup_nat
+from src.nats import setup_nats
 from src.vpc import setup_vpc
 
 
@@ -14,28 +14,9 @@ class Commons(Stack):
             'account': config['account_id'],
             'region': config['region']
         })
-        hosted_zone, certificate = setup_dns(self)
-        vpc = setup_vpc(self)
-        setup_nat(self, vpc)
+        setup_dns(self)
+        setup_nats(self, setup_vpc(self))
         setup_billing_alert(self)
-
-        CfnOutput(
-            self,
-            'HostedZoneId',
-            value=hosted_zone.hosted_zone_id,
-        )
-
-        CfnOutput(
-            self,
-            'CertificateArn',
-            value=certificate.certificate_arn,
-        )
-
-        CfnOutput(
-            self,
-            'VpcId',
-            value=vpc.vpc_id
-        )
 
 
 if __name__ == '__main__':
