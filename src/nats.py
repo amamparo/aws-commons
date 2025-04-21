@@ -1,6 +1,3 @@
-from collections import defaultdict
-from typing import Dict, Optional
-
 from aws_cdk.aws_ec2 import InstanceType, Instance, SubnetSelection, MachineImage, IVpc, CfnRoute, AmazonLinuxCpuType, \
     Peer, Port, ISubnet
 from aws_cdk.aws_iam import ManagedPolicy
@@ -8,16 +5,16 @@ from constructs import Construct
 
 
 def setup_nats(scope: Construct, vpc: IVpc) -> None:
-    az_subnets: Dict[str, Dict[str, Optional[ISubnet]]] = defaultdict(lambda: {'public': None, 'private': None})
-
-    for subnet in vpc.public_subnets:
-        az_subnets[subnet.availability_zone]['public'] = subnet
-
-    for subnet in vpc.private_subnets:
-        az_subnets[subnet.availability_zone]['private'] = subnet
-
-    for az, subnets in az_subnets.items():
-        __setup_nat(scope, az, subnets['public'], subnets['private'], vpc)
+    for az in vpc.availability_zones:
+        public_subnet = next(
+            subnet for subnet in vpc.public_subnets
+            if subnet.availability_zone == az
+        )
+        private_subnet = next(
+            subnet for subnet in vpc.private_subnets
+            if subnet.availability_zone == az
+        )
+        __setup_nat(scope, az, public_subnet, private_subnet, vpc)
 
 
 def __setup_nat(scope: Construct, az: str, public_subnet: ISubnet, private_subnet: ISubnet, vpc: IVpc) -> None:

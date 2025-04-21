@@ -10,7 +10,7 @@ from src.config import config
 def setup_billing_alert(scope: Construct) -> None:
     billing_topic = Topic(scope, 'BillingAlarmTopic')
 
-    billing_topic.add_subscription(EmailSubscription(config['billing_alert_email']))
+    billing_topic.add_subscription(EmailSubscription(config['billing_alert']['email']))
 
     billing_alarm = cloudwatch.Alarm(
         scope,
@@ -24,7 +24,7 @@ def setup_billing_alert(scope: Construct) -> None:
             statistic='Maximum',
             period=Duration.hours(6)
         ),
-        threshold=config['billing_alert_estimated_monthly_charges_threshold_usd'],
+        threshold=config['billing_alert']['estimated_monthly_charges_threshold_usd'],
         evaluation_periods=1,
         comparison_operator=cloudwatch.ComparisonOperator.GREATER_THAN_THRESHOLD,
         treat_missing_data=cloudwatch.TreatMissingData.MISSING

@@ -1,6 +1,12 @@
 account_id = "388646735826"
 region = "us-east-1"
+
+[vpc]
+n_azs = 2
+
+[dns]
 home_domain_name = "aaronmamparo.com"
-billing_alert_email = "aaronmamparo@gmail.com"
-billing_alert_estimated_monthly_charges_threshold_usd = 50
-n_vpc_azs = 2
+
+[billing_alert]
+email = "aaronmamparo@gmail.com"
+estimated_monthly_charges_threshold_usd = 50

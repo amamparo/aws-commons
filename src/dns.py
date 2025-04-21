@@ -7,9 +7,9 @@ from src.config import config
 
 
 def setup_dns(scope: Construct) -> None:
-    hosted_zone = HostedZone(scope, 'HostedZone', zone_name=config['home_domain_name'])
-
-    certificate = Certificate(scope, 'Certificate', domain_name=f'*.{config['home_domain_name']}',
+    home_domain_name = config['dns']['home_domain_name']
+    hosted_zone = HostedZone(scope, 'HostedZone', zone_name=home_domain_name)
+    certificate = Certificate(scope, 'Certificate', domain_name=f'*.{home_domain_name}',
                               validation=CertificateValidation.from_dns(hosted_zone))
 
     TxtRecord(

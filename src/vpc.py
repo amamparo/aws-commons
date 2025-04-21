@@ -10,10 +10,7 @@ from src.config import config
 
 
 def setup_vpc(scope: Construct) -> IVpc:
-    n_vpc_azs = config['n_vpc_azs']
-
-    assert 1 <= n_vpc_azs <= 6, 'Number of VPC AZs must be between 1 and 6'
-
+    n_vpc_azs = config['vpc']['n_azs']
     vpc = Vpc(
         scope,
         f'Vpc{hashlib.md5(f"{n_vpc_azs}".encode()).hexdigest()[:8]}',
